@@ -27,7 +27,7 @@ CREATE TABLE 'scores'(
   'id_score' integer NOT NULL AUTO_INCREMENT,
   'score' integer NOT NULL
 
-  CONSTRAINT pk_scores PRIMARY KEY (id_score)
+  CONSTRAINT pk_scores PRIMARY KEY (id_score),
   CONSTRAINT pk_users_scores FOREIGN KEY (id_user) REFERENCES users(id_user)
 
 );
@@ -41,3 +41,11 @@ CREATE TABLE 'product' (
   CONSTRAINT pk_product PRIMARY KEY(id_product)
 );
 
+CREATE TABLE 'agenda_client'(
+  'id_user' integer (11) NOT NULL REFERENCES users,
+  'id_agenda_client' integer (11) NOT NULL,
+  'date' date NOT NULL
+
+  CONSTRAINT pk_agenda_client PRIMARY KEY (id_agenda_client),
+  CONSTRAINT pk_users_agenda FOREIGN KEY (id_user) REFERENCES users(id_user)
+)
