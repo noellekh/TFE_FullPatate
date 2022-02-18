@@ -6,6 +6,7 @@ CREATE TABLE cities(
 CREATE TABLE users (
   id_user int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_nom varchar(50) NOT NULL,
+  user_password varchar(50) NOT NULL,
   user_surname varchar(50) NOT NULL,
   user_birth date NOT NULL,
   user_email varchar(150) NOT NULL UNIQUE,
