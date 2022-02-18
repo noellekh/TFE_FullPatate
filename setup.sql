@@ -1,6 +1,5 @@
 CREATE TABLE cities(
-  id_postal int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  postal int(5) NOT NULL,
+  postal int(5) NOT NULL PRIMARY KEY,
   city varchar (50) NOT NULL
 );
 
@@ -16,7 +15,7 @@ CREATE TABLE users (
   postal int(5) NOT NULL, 
   newsletter int(1),
   
-  CONSTRAINT fk_cities_users FOREIGN KEY (postal) REFERENCES cities(id_postal)
+  CONSTRAINT fk_cities_users FOREIGN KEY (postal) REFERENCES cities(postal)
 );
 
 
@@ -43,3 +42,10 @@ CREATE TABLE agenda_client(
 
   CONSTRAINT pk_users_agenda FOREIGN KEY (id_user) REFERENCES users(id_user)
 );
+
+INSERT INTO cities(postal, city) VALUES(
+  1234, 'N-Y'
+);
+
+INSERT INTO users (id_user, user_nom, user_surname, user_birth, user_email, user_phone, user_sex, user_street, postal, newsletter) VALUES (
+  1, 'Balboa', 'Rocky', '1965-03-09', 'rocky@balboa.com', '84902849', 'M', 'Rue de la boxe', 1234, 0);
