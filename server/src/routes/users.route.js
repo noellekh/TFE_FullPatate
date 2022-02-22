@@ -2,7 +2,20 @@ const express = require('express');
 const router = express.Router();
  
 const userController = require('../controllers/users.controller');
+
+router.get('/', userController.findAll);
+
+router.post('/', userController.create);
+
+router.get('/:id_user', userController.findById);
+
+router.put('/:id_user', userController.update);
+
+router.delete('/:id_user', userController.delete);
+
+module.exports=router
  
+/*
 // get all employees
 router.get('/', userController.getUserList);
  
@@ -23,3 +36,5 @@ router.put('/:id', userController.updateUser);
 router.delete('/:id',userController.deleteUser);
  
 module.exports = router;
+
+*/

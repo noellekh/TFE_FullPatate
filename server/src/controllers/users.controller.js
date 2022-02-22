@@ -1,3 +1,61 @@
+const User = require('../models/user.model');
+
+
+exports.findAll = function(req, res){
+    User.findAll = (function(err, user){
+        console.log('controller')
+        if(err)
+        res.sender(err);
+        console.log('res', user);
+        res.send(user);
+    });
+};
+
+exports.create = function(req, res){
+    const new_user = new User(req.body);
+
+    if(req.body.constructor === Object && Object.keys(req.body).length ===0){
+        res.status(400).send({error:true, message:'Remplissez tous les champs'});
+    }else{
+        User.create(new_user, function(err, user){
+            if(err)
+            res.send(err);
+            res.json({error:false, message:"User ajouté avec succés !", data:user});
+        });
+    }
+};
+
+exports.findById = function(req, res) {
+    User.findById(req.params.id_user, function(err, user) {
+      if (err)
+      res.send(err);
+      res.json(user);
+    });
+};
+
+exports.update = function(req, res){
+    if(req.body.constructor === Object && Object.keys(req.body).length===0){
+        res.status(400).send({error:true, message:"Remplissez tous les champs svp"});
+    }else{
+        User.update(req.params.id_user, new User(req.body), function(err, user){
+            if (err)
+            res.send(err);
+            res.json({error:false, message:'User modifié avec succes !'});
+        });
+    }
+};
+
+exports.delete = function(req, res) {
+    User.delete( req.params.id_user, function(err, user) {
+      if (err)
+      res.send(err);
+      res.json({ error:false, message: 'User supprimé avec succes'});
+    });
+};
+    
+
+
+/*
 const UserModel = require('../models/user.model');
  
 // get all employee list
@@ -78,3 +136,5 @@ exports.deleteUser = (req, res)=>{
         res.json({success:true, message: 'Employee deleted successully!'});
     })
 }
+
+*/

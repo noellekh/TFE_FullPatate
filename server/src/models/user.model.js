@@ -1,20 +1,84 @@
 var db  = require('../../config/db.config');
  
 var User = function(user){
-    this.id_user  = user.id;
-    this.user_nom  = user.fname;
-    this.user_password = user.pwd;
-    this.user_surname = user.lname;
-    this.user_birth = user.birthday;
-    this.user_email = user.email;
-    this.user_phone = user.phone;
-    this.user_sex = user.gender;
-    this.user_street = user.street;
+    this.id_user  = user.id_user;
+    this.user_nom  = user.user_nom;
+    this.user_password = user.user_password;
+    this.user_surname = user.user_surname;
+    this.user_birth = user.user_birth;
+    this.user_email = user.user_email;
+    this.user_phone = user.user_phone;
+    this.user_sex = user.user_sex;
+    this.user_street = user.user_street;
     this.postal = user.postal;
     this.newsletter = user.newsletter;
 
-}
- 
+};
+
+
+User.create = function (newUser, result){
+    db.query ("INSERT INTO users set ?", newUser, function (err, res){
+        if (err){
+            console.log("error:", err);
+            result(err, null);
+        }else{
+            console.log("id: ",res.insertId);
+            result(null, res.insertId);
+        }
+    });
+};
+
+
+User.findById = function(id_user, result){
+    db.query("SELECT * from users where id_user = ?", id_user, function(err, res){
+        if(err){
+            console.log("error: ", err);
+        }else{
+            result(null, res);
+        }
+    });
+};
+
+User.findAll = function(result){
+    db.query("SELECT * from users", function(err, res){
+        if(err){
+            console.log("error: ", err);
+            result(null, err);
+        }else{
+            console.log('user: ', res);
+            result(null, res);
+        }
+    });
+};
+
+
+User.update = function (id_user, user, result){
+    db.query("UPDATE users SET  user_nom=?, user_password=?, user_surname=?, user_birth=?, user_email=?, user_phone=?, user_sex=?, user_street=?, postal=?, newsletter=? WHERE id_user=?",
+    [user.user_nom, user.user_password, user.user_surname, user.user_birth, user.user_email, user.user_phone, user.user_sex, user.user_street, user.postal, user.newsletter, id_user], function(err, res){
+        if(err){
+            console.log("error: ", err);
+            result(null, err);
+        }else{
+            result(null, res);
+        }
+    });
+};
+
+User.delete = function(id_user, result){
+    db.query("DELETE FROM users WHERE id_user=?", [id_user], function(err, res){
+        if(err){
+            console.log("error: ", err);
+            result(null, err);
+        }else{
+            result(null, res);
+        }
+    });
+};
+
+module.exports=User;
+
+
+ /*
 // get all Users
 User.getAllUsers = (result) =>{
     db.query('SELECT * FROM users', (err, res)=>{
@@ -106,3 +170,4 @@ User.deleteUser = (id, result)=>{
 }
  
 module.exports = User;
+*/
