@@ -39,7 +39,7 @@ CREATE TABLE product (
 CREATE TABLE agenda_client(
   id_user integer (11) NOT NULL,
   id_agenda_client integer (11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  id_date date NOT NULL,
+  agenda_user_date date NOT NULL,
 
   CONSTRAINT pk_users_agenda FOREIGN KEY (id_user) REFERENCES users(id_user)
 );
