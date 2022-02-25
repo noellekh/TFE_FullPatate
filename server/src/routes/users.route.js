@@ -3,25 +3,24 @@ const router = express.Router();
  
 const userController = require('../controllers/users.controller');
 
-const agendaClientController =  require('../controllers/agenda_user.controller');
+//const agendaClientController =  require('../controllers/agenda_user.controller');
+
+
 
 
 router.get('/all_users', userController.findAll);
-
 router.post('/new_user', userController.create);
-
 router.get('/:id_user', userController.findById);
-
 router.put('/update_user/:id_user', userController.update);
-
 router.delete('/delete_user/:id_user', userController.delete);
 
 
-router.get('/all_agenda_user', agendaClientController.findAgendaUAll);
+//router.get('/all_agenda_user', agendaClientController.findAgendaUAll);
+//router.post('/new_agenda_user', agendaClientController.createAgendaUser);
+//router.get('/id_agenda_client/:id_agenda_client', agendaClientController.findByAngendaAUId);
 
-router.post('/new_agenda_user', agendaClientController.createAgendaUser);
 
-router.get('/:id_agenda_client', agendaClientController.findByAngendaAUId);
+
 
 
 
