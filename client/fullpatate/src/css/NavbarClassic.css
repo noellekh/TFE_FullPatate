@@ -31,6 +31,13 @@
     align-items: center;
 }
 
+.logo-img {
+  height: auto;
+  width: 10rem;
+ 
+}
+
+
 .menu-classic{
     grid-column: 3/4;
 
@@ -63,7 +70,7 @@
 .social-media ul li:first-child{
     grid-column: 2/3;
 }
-
+/*
 .logo-fp h2{
     font-size: 2.5rem;
     font-weight: 400;
@@ -72,6 +79,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+*/
 
 
 .menu-classic ul li {

@@ -3,6 +3,7 @@ import {FaFacebookSquare, FaInstagramSquare} from "react-icons/fa";
 import '../css/NavbarClassic.css';
 import {GiHamburgerMenu} from "react-icons/gi";
 import { NavLink } from "react-router-dom";
+import logo from "../img/logo-fp.png";
 
 const NavbarClassic =()=>{
     const [showMediaIcons, setShowMediaIcons] = useState(false);
@@ -13,7 +14,7 @@ const NavbarClassic =()=>{
 
             <nav className="navbar-classic">
                 <div className="logo-fp">
-                    <h2>Full Patate</h2>
+                    <img className="logo-img" src={logo} alt="logo-navbar"/> 
 
                 </div>
 
