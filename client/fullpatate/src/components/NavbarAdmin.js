@@ -5,7 +5,7 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import logo from "../img/logo-fp.png";
 
-const NavbarClassic =()=>{
+const NavbarAdmin =()=>{
     const [showMediaIcons, setShowMediaIcons] = useState(false);
 
     
@@ -20,25 +20,37 @@ const NavbarClassic =()=>{
 
                 <div className={showMediaIcons ? "menu-classic mobile-menu-classic": "menu-classic"}>
                     <ul>
-                    <NavLink to='/' >
-                        <li>Accueil</li>
+                
+                <NavLink to='/agenda-admin' >
+                        <li>Agenda</li>
                 </NavLink>
-
-                <NavLink to='/contact' >
+  
+                <NavLink to='/contact-admin' >
                         <li>Contact</li>
                 </NavLink>
 
-                <NavLink to='/e-shop' >
+                <NavLink to='/shop-admin' >
                         <li>Boutique</li>
                 </NavLink>
 
-                <NavLink to='/connexion' >
-                        <li>Connexion</li>
+
+                <NavLink to='/blog' >
+                        <li>Blog</li>
                 </NavLink>
 
-                <NavLink to='/inscription' >
-                        <li>Inscription</li>
+                <NavLink to='/client-admin' >
+                        <li>Mes clients</li>
                 </NavLink>
+
+                <NavLink to='/newsletter' >
+                        <li>Newsletter</li>
+                </NavLink>
+
+                <NavLink to='/deconnexion' >
+                        <li>Deconnexion</li>
+                </NavLink>
+
+
   
 
                         
@@ -64,4 +76,4 @@ const NavbarClassic =()=>{
     )
 }
 
-export default NavbarClassic;
+export default NavbarAdmin;

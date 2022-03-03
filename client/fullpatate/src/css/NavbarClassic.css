@@ -19,14 +19,16 @@
 
 .navbar-classic{
     width: 100%;
-    height: 10rem;
+    height: 12rem;
     display: grid;
-    grid-template-columns: 10rem 1fr 2fr 1fr 10rem;
+    grid-template-columns: 10rem 1fr 1fr 3fr 10rem;
+    /*background-color: rgb(0,0, 0, 0.3) ;*/
+    box-shadow: rgba(175, 27, 27, 0.5) 0px 30px 60px -10px inset;
 }
 
 .logo-fp{
     display: grid;
-    grid-column: 2/3;
+    grid-column: 1/3;
     justify-content: start;
     align-items: center;
 }
@@ -45,8 +47,9 @@
 
 .menu-classic ul {
     height: 10rem;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 2fr repeat(6, 3fr) ;
+    column-gap: 4rem;
     align-items: center;
 
 }
@@ -58,14 +61,18 @@
 .social-media ul {
     height: 10rem;
     display: grid;
-    grid-template-columns: 2fr repeat(2, 1fr) ;
+    grid-template-columns: 3fr repeat(3, 1fr) ;
     align-items: center;
 
 }
 
 .social-media ul li {
     text-align: right;
+    width: 10rem;
+    
 }
+
+
 
 .social-media ul li:first-child{
     grid-column: 2/3;
@@ -86,30 +93,37 @@
     font-size: 1.8rem;
 }
 
-.menu-classic ul li a{
+.menu-classic ul li {
     text-transform: capitalize;
-    color: black;
+    color: rgb(175,27,27);
     text-decoration: none;
     transition: 0.5s;
 }
 
-.menu-classic ul li:hover > a{
+.menu-classic ul :hover > li{
     transform-origin: left;
-    color: yellow;
-    border-bottom: solid 1px yellow;
+    color: rgb(229,194, 80);
+    border-bottom: solid 1px rgb(229,194, 80);
     cursor: default;
 }
 
 .social-media .hamburger-menu {
     display: none;
+    color: rgb(175,27,27);
   }
   
   .facebook {
-    color: #3b5998;
+    color: rgb(175,27,27);
+    width: 10rem;
   }
   
   .instagram {
-    color: #c32aa3;
+    color: rgb(175,27,27);
+    size: 10rem;
+  }
+
+  .burger-menu {
+    color: rgb(175,27,27);
   }
 
   /* responsive part */
@@ -121,6 +135,7 @@
     }
 
     .logo-fp,
+    .logo-img,
     .menu-classic ul,
     .social-media ul{
         height: 8rem;
@@ -138,6 +153,7 @@
     }
 
     .logo-fp,
+    .logo-img {width: 7rem;}
     .social-media ul{
         height: 7rem;
     }
@@ -208,6 +224,7 @@
     }
   
     .logo-fp,
+    .logo-img {display: none;}
     .social-media ul {
       height: 6rem;
     }
@@ -232,6 +249,7 @@
     }
   
     .logo-fp,
+    .logo-img {display: none;}
     .social-media ul {
       height: 6rem;
     }
