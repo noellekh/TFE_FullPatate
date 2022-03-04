@@ -1,4 +1,4 @@
-const Product = require ('../models/produits.model');
+const Product = require ('../models/produits.model.js');
 
 exports.findallProduct = function(req, res){
     Product.findallProduct = (function(err, product){
@@ -21,7 +21,7 @@ exports.createProduct = function(req, res){
             if(err)
             res.send(err);
             console.log(err);
-            res.json({errpr:false, message:'Produit ajouté avec succes', data: product});
+            res.json({error:false, message:'Produit ajouté avec succes', data: product});
 
         });
     };

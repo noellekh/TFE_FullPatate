@@ -22,12 +22,12 @@ app.get('/', (req, res)=>{
     res.send('Full Patate');
 });
 // import employee routes
-const usersRoutes = require('./src/routes/users.route');
-const productRoutes = require('./src/routes/product.route');
+const usersRoutes = require('./src/routes/users.route.js');
+const productRoutes = require('./src/routes/product.route.js');
  
 // create employee routes
 app.use('/api/v1/users', usersRoutes);
-app.use('/api/v1/products', productRoutes);
+app.use('/api/v2/products', productRoutes);
  
 // listen to the port
 app.listen(port, ()=>{

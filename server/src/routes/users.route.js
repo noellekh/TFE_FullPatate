@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
  
-const userController = require('../controllers/users.controller');
+const userController = require('../controllers/users.controller.js');
 
 //const agendaClientController =  require('../controllers/agenda_user.controller');
 

@@ -16,14 +16,14 @@ var User = function(user){
 };
 
 
-User.create = function (newUser, result){
-    db.query ("INSERT INTO users set ?", newUser, function (err, res){
+User.create = function (new_user, result){
+    db.query("INSERT INTO users set ?", new_user, function (err, res){
         if (err){
             console.log("error:", err);
             result(err, null);
         }else{
-            console.log("id: ",res.insertId);
-            result(null, res.insertId);
+            console.log("id: ", res);
+            result(null, res);
         }
     });
 };

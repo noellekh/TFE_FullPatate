@@ -3,7 +3,7 @@ const User = require('../models/user.model');
 
 exports.findAll = function(req, res){
     User.findAll = (function(err, user){
-        console.log('controller')
+        console.log('controller');
         if(err)
         res.sender(err);
         console.log('res', user);

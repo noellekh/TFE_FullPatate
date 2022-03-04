@@ -7,14 +7,14 @@ var Product = function(product){
     this.product_description = product.product_description;
 };
 
-Product.createProduct = function(newProduct, result){
-    db.query("INSERT INTO product set ?", newProduct, function(err, res){
+Product.createProduct = function(new_product, result){
+    db.query("INSERT INTO product set ?", new_product, function(err, res){
         if(err){
             console.log("error product: ", err);
             result(err, null);
         }else{
-            console.log("id_product: ", res.insertId);
-            result(null, res.insertId);
+            console.log("id_product: ", res);
+            result(null, res);
         }
     });
 };
