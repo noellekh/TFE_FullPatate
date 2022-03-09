@@ -1,4 +1,18 @@
 var db  = require('../../config/db.config');
+
+/*
+            id_user
+            user_nom
+            user_password
+            user_surname;
+            user_birth;
+            user_email;
+            user_phone;
+            user_sex;
+            user_street;
+            postal;
+            newsletter;
+*/
  
 var User = function(user){
     this.id_user  = user.id_user;

@@ -1,12 +1,16 @@
+
+const dotenv = require('dotenv');
+const cookieParser = require ('cookie-parser');
 const express = require ('express');
 //const mysql = require ('mysql2');
 const cors = require ('cors'); 
 const bodyParser = require('body-parser');
 const app = express();
 
-
-app.use(cors())
-
+dotenv.config();
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
  
 // setup the server port
 const port = process.env.PORT || 3001;
@@ -24,10 +28,12 @@ app.get('/', (req, res)=>{
 // import employee routes
 const usersRoutes = require('./src/routes/users.route.js');
 const productRoutes = require('./src/routes/product.route.js');
+const authentRoutes = require ('./src/routes/authent.route.js')
  
 // create employee routes
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v2/products', productRoutes);
+app.use('/api/v1/authent', authentRoutes)
  
 // listen to the port
 app.listen(port, ()=>{
