@@ -1,14 +1,14 @@
-//const Sequelize = require('sequelize');
-//const db = require ('../../config/db.config');
+const Sequelize = require('sequelize');
+const db = require ('../../config/db.config');
 
 //const { sequelize, Sequelize } = require(".");
 
 //const { DataTypes } = Sequelize;
 
-module.exports = (sequelize, Sequelize)=>{
+//module.exports = (sequelize, Sequelize)=>{
     
 
-    const Authent = sequelize.define('users', {
+    const Authent = db.define('users', {
         user_nom:{
         type: Sequelize.STRING
          },
@@ -47,9 +47,12 @@ module.exports = (sequelize, Sequelize)=>{
         refresh_token:{
         type: Sequelize.TEXT
         }
+    },{
+        freezeTableName: true
     });
-    return Authent;
-} ;           
+    
+
+module.exports = Authent;
 /*        
 },{
     freezeTableName: true

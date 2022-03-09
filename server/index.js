@@ -6,9 +6,15 @@ const express = require ('express');
 const cors = require ('cors'); 
 const bodyParser = require('body-parser');
 const app = express();
-
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+    'Access-Control-Allow-Origin': "*",
+    'Access-Control-Allow-Methods': "GET, POST, PUT, DELETE"
+}
 dotenv.config();
-app.use(cors());
+app.use(cors(corsOptions)); //{credentials:true, origin:'http:/:localhost:3000'}));
 app.use(cookieParser());
 app.use(express.json());
  

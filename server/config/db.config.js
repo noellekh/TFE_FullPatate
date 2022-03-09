@@ -1,4 +1,17 @@
 const mysql = require('mysql2');
+const Sequelize = require('sequelize');
+
+const db = new Sequelize('fp_db', 'balboa', 'fullpatate',{
+    host: "localhost",
+    dialect: 'mysql'
+
+}
+);
+
+
+module.exports = db;
+
+/*
 
 const db = mysql.createConnection ({
     host: 'localhost',
@@ -16,3 +29,4 @@ db.connect((err)=>{
 })
 
 module.exports = db;
+*/

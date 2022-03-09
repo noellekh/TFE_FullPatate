@@ -17,8 +17,8 @@ exports.getUsersAuthent = async(req, res) =>{
 }
 
 exports.Register = async(req, res)=>{
-    const {name, surname, password, confPassword, birth, email, phone, sex, street, postal, newsletter}= req.body;
-    if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
+    const {name, surname, password, birth, email, phone, sex, street, postal, newsletter}= req.body;
+    //if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
     try {
