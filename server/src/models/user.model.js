@@ -61,6 +61,7 @@ User.findAll = function(result){
         }else{
             console.log('user: ', res);
             result(null, res);
+            res.json(result);
         }
     });
 };

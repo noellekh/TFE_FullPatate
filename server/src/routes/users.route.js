@@ -8,7 +8,7 @@ const userController = require('../controllers/users.controller.js');
 
 
 
-router.get('/all_users', userController.findAll);
+router.get('/', (req, res)=>{userController.findAll});
 router.post('/new_user', userController.create);
 router.get('/:id_user', userController.findById);
 router.put('/update_user/:id_user', userController.update);
