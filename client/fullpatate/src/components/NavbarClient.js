@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import axios from 'axios';
+
 import {FaFacebookSquare, FaInstagramSquare} from "react-icons/fa";
 import '../css/NavbarClassic.css';
 import {GiHamburgerMenu} from "react-icons/gi";
@@ -7,6 +9,18 @@ import logo from "../img/logo-fp.png";
 
 const NavbarClient =()=>{
     const [showMediaIcons, setShowMediaIcons] = useState(false);
+    const navigate = useNavigate();
+
+    const Logout = async () =>{
+        try{
+            await axios.delete("http://localhost:3001/api/v1/authent/logout");
+            navigate('/');
+
+        }catch(error){
+            console.log(error);
+
+        }
+    }
 
     return (
 
@@ -45,10 +59,8 @@ const NavbarClient =()=>{
                         <li>Astuces</li>
                 </NavLink>
 
-                <NavLink to='/deconnexion' >
-                        <li>Deconnexion</li>
-                </NavLink>
-                
+                <button onClick={Logout} className="bouton-deconnexion">Se déconnecter</button>
+
     
                 </ul>
             </div>
