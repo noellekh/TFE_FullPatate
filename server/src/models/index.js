@@ -15,4 +15,5 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.authent = require("./authent.model.js");
+db.sequelize.sync();
 module.exports = db;

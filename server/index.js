@@ -32,12 +32,12 @@ app.get('/', (req, res)=>{
     res.send('Full Patate');
 });
 // import employee routes
-const usersRoutes = require('./src/routes/users.route.js');
+//const usersRoutes = require('./src/routes/users.route.js');
 const productRoutes = require('./src/routes/product.route.js');
 const authentRoutes = require ('./src/routes/authent.route.js')
  
 // create employee routes
-app.use('/api/v1/users', usersRoutes);
+//app.use('/api/v1/users', usersRoutes);
 app.use('/api/v2/products', productRoutes);
 app.use('/api/v1/authent', authentRoutes)
  

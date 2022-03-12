@@ -9,12 +9,19 @@ const db = require ('../../config/db.config');
     
 
     const Authent = db.define('users', {
+        id_user:{
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+        },
+        
         user_nom:{
         type: Sequelize.STRING
          },
 
         user_password :{
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
         },
 
         user_surname:{
@@ -31,6 +38,7 @@ const db = require ('../../config/db.config');
         user_phone:{
         type: Sequelize.STRING
         },
+    
         user_sex:{
         type: Sequelize.STRING
         },
@@ -44,11 +52,9 @@ const db = require ('../../config/db.config');
         type: Sequelize.STRING
         },
 
-        refresh_token:{
-        type: Sequelize.TEXT
-        }
     },{
-        freezeTableName: true
+        freezeTableName: true,
+        timestamps: false
     });
     
 

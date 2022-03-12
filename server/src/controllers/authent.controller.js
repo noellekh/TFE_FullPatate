@@ -23,7 +23,7 @@ exports.Register = async(req, res)=>{
     const hashPassword = await bcrypt.hash(password, salt);
     try {
         await Authent.create({
-            user_nom: nom,
+            user_nom: name,
             user_password: hashPassword,
             user_surname: surname,
             user_birth: birth,
