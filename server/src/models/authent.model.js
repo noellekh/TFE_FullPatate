@@ -20,13 +20,15 @@ const db = require ('../../config/db.config');
         type: Sequelize.STRING
          },
 
+        user_surname:{
+            type: Sequelize.STRING
+            },
+
         user_password :{
         type: Sequelize.TEXT
         },
 
-        user_surname:{
-        type: Sequelize.STRING
-        },
+
 
         user_birth:{
         type: Sequelize.DATE
@@ -35,6 +37,7 @@ const db = require ('../../config/db.config');
         user_email:{
         type: Sequelize.STRING
         },
+        
         user_phone:{
         type: Sequelize.STRING
         },

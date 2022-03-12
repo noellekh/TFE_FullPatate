@@ -35,7 +35,7 @@ const Register = ()=>{
 
 
             });
-            navigate.push('/');
+            navigate('/auccueil-client');
         }catch(error){
             if (error.response){
                 setMsg(error.response.data.msg)

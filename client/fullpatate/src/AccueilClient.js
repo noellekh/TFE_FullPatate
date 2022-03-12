@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
-import NavbarClassic from "./components/NavbarClassic";
+//import NavbarClassic from "./components/NavbarClassic";
+import NavbarClient from "./components/NavbarClient";
 //import { getUsersAuthent } from "../../../server/src/controllers/authent.controller";
 
-const AccueilClassic =()=>{
+const AccueilClient =()=>{
 
     const [name, setName] = useState('');
     const [token, setToken] =useState('');
@@ -27,7 +28,7 @@ const AccueilClassic =()=>{
             setExpire(decode.exp);
         }catch(error){
             if (error.response){
-                navigate.push('/');
+                navigate('/accueil-client');
             }
         }
     }
@@ -50,7 +51,7 @@ const AccueilClassic =()=>{
     });
 
     const getUsersAuthent = async () =>{
-        const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/register', {
+        const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/authentication', {
             headers:{
                 Authorization: `Bearer ${token}`,
             }
@@ -60,11 +61,13 @@ const AccueilClassic =()=>{
 
 
     return (
-        <div className="accueil">
-            <NavbarClassic />
-            <h2>Bienvenue :{name}</h2>
+        <div className="accueil-client">
+            <NavbarClient />
+            <h2>Bienvenue !</h2>
+ 
+  
         </div>
     )
 }
 
-export default AccueilClassic;
+export default AccueilClient;

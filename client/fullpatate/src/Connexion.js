@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavbarClassic from './components/NavbarClassic';
+import AccueilClassic from './AccueilClient';
 
 const Login = ()=>{
     const [email, setEmail]=useState('');
     const [password, setPassword]= useState('');
     const [msg, setMsg]= useState('');
     const navigate = useNavigate();
+
     const Auth = async(e)=>{
         e.preventDefault();
         try{
@@ -15,7 +17,7 @@ const Login = ()=>{
                 email: email, 
                 password:password
             });
-            navigate.push("/")
+            navigate("/accueil-client")
         }catch(error){
             if(error.response){
                 setMsg(error.response.data.msg)
@@ -45,7 +47,7 @@ const Login = ()=>{
                         </div>
 
                         <div className='field-connexion'>
-                            <button className='button-connexion' onClick={Login}>Se connecter</button>
+                            <button className='button-connexion' onClick={Auth}>Se connecter</button>
                         </div>
                     </form>
                 </div>

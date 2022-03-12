@@ -19,13 +19,14 @@ exports.getUsersAuthent = async(req, res) =>{
 exports.Register = async(req, res)=>{
     const {name, surname, password, birth, email, phone, sex, street, postal, newsletter}= req.body;
     //if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
-    const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
+    console.log(hashPassword);
     try {
         await Authent.create({
             user_nom: name,
-            user_password: hashPassword,
             user_surname: surname,
+            user_password: hashPassword,
             user_birth: birth,
             user_email: email,
             user_phone: phone,
@@ -40,18 +41,22 @@ exports.Register = async(req, res)=>{
     }
 }
 
-exports.Login = async(req, res) =>{
+exports.Login = (req, res) =>{
     try {
-        const auth = await Authent.findAll({
+        const auth =  Authent.findOne({
             where:{
                 user_email: req.body.email
             }
         });
-        const match = await bcrypt.compare(req.body.password, auth[0].password);
-        if(!match) return res.status(400);json({msq: "Mauvais mot de passe"});
-        const userId = auth[0].id_user;
-        const name = auth[0].user_nom;
-        const email = auth[0].user_email;
+        bcrypt.compare(req.body.password, auth.password, function(err, res){
+            if(err){
+                console.log('comparaison error:', err)
+            }
+        });
+        //if(!match) return res.status(400);json({msq: "Mauvais mot de passe"});
+        const userId = auth.id;
+        const name = auth.nom;
+        const email = auth.email;
         const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
             expiresIn: '20s'
         });
@@ -59,7 +64,7 @@ exports.Login = async(req, res) =>{
         const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
             expiresIn: '1d'
         });
-        await Authent.update({refresh_token: refreshToken},{
+         Authent.update({refresh_token: refreshToken},{
             where:{
                 id_user: userId
             }
@@ -68,9 +73,13 @@ exports.Login = async(req, res) =>{
             httpOnly: true,
             maxAge: 24 * 60 * 60* 1000
         });
-        res.json({ accessToken });
+        res.json({ accessToken});
+        res.status(200).json({msg:"ouiii"})
     }catch (error){
-        res.status(404).json({msg: 'email qqc'});
+        res.status(404).json({msg: 'email non trouvé'});
+        console.log(error);
+        //res.send(error);
+        
     }
 }
 
