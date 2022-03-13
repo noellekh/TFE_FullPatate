@@ -34,7 +34,7 @@ const NavbarClient =()=>{
 
             <div className={showMediaIcons ? "menu-classic mobile-menu-classic": "menu-classic"}>
                 <ul>
-                <NavLink to='/' >
+                <NavLink to='/accueil-client' >
                         <li>Accueil</li>
                 </NavLink>
 

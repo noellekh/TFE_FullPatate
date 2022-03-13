@@ -11,13 +11,13 @@ const AccueilClient =()=>{
     const [name, setName] = useState('');
     const [token, setToken] =useState('');
     const [expire, setExpire] = useState('');
-    const [users, setUsers] = useState('');
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
 
     useEffect( ()=>{
         refreshToken();
         getUsersAuthent();
-    },[]);
+    }, []);
 
     const refreshToken = async()=>{
         try{
@@ -28,7 +28,7 @@ const AccueilClient =()=>{
             setExpire(decode.exp);
         }catch(error){
             if (error.response){
-                navigate('/accueil-client');
+                navigate('/');
             }
         }
     }
@@ -46,7 +46,9 @@ const AccueilClient =()=>{
 
         return config;
     },(error) =>{
-        return Promise.reject(error);
+        console.log('erreur')
+        return (error);
+
 
     });
 
@@ -57,13 +59,21 @@ const AccueilClient =()=>{
             }
         });
         setUsers(response.data);
+        
     }
 
 
     return (
         <div className="accueil-client">
             <NavbarClient />
-            <h2>Bienvenue !</h2>
+            {users.map((user)=>{
+                return(
+                    <h1>hello {user.usesr_name}</h1>
+                )
+                
+            })}
+            <h2>Bienvenue : {name}!</h2>
+            
  
   
         </div>
