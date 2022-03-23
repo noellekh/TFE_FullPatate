@@ -10,6 +10,7 @@ import AgendaClient from './AgendaClient';
 import AgendaAdmin from './AgendaAdmin';
 import Inscription from './Inscription';
 import Connexion from './Connexion';
+import Training from './Training';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/agenda-admin' element={<AgendaAdmin />}/>
         <Route path='/inscription' element={<Inscription />}/>
         <Route path='/connexion' element={<Connexion />}/>
+        <Route path="/training" element={<Training />}/>
        
       </Routes>
     </Router>

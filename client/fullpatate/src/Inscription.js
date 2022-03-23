@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import NavbarClassic  from "./components/NavbarClassic";
+import Connexion from "./Connexion";
 
 const Register = ()=>{
     const [name, setName] = useState('');
@@ -35,10 +36,12 @@ const Register = ()=>{
 
 
             });
-            navigate('/accueil-client');
+            navigate("/connexion")
+            alert("Bienvenue !")
         }catch(error){
             if (error.response){
                 setMsg(error.response.data.msg)
+                
             }
         }
     }

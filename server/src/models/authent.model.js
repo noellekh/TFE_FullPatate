@@ -59,6 +59,10 @@ const db = require ('../../config/db.config');
         freezeTableName: true,
         timestamps: false
     });
+
+    (async()=>{
+        await db.sync();
+    }) ();
     
 
 module.exports = Authent;

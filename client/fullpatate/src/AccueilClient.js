@@ -14,51 +14,74 @@ const AccueilClient =()=>{
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
 
+    console.log("TOKEN: ", token);
+    
+
     useEffect( ()=>{
         refreshToken();
         getUsersAuthent();
     }, []);
 
-    const refreshToken = async()=>{
+    const refreshToken = async function (){
         try{
             const response = await axios.get('http://localhost:3001/api/v1/authent/token');
             setToken(response.data.accessToken);
             const decode = jwt_decode(response.data.accessToken);
             setName(decode.name);
             setExpire(decode.exp);
+            console.log("DECODE", decode);
+
         }catch(error){
             if (error.response){
+                console.log("ERROR REFRESH ACC", error);
+                //console.log("SetTOKEN: ");
                 navigate('/');
             }
         }
     }
 
-    const axiosJWT = axios.create();
+    const axiosJWT = axios.create(
+        {
+            headers: { "Content-Type": "application/json" },
+        
+        });
 
     axiosJWT.interceptors.request.use(async (config)=>{
         const currentDate = new Date();
         if(expire*1000 < currentDate.getTime()){
             const response = await axios.get('http://localhost:3001/api/v1/authent/token');
+            config.headers.Authorization= `Bearer ${response.data.accessToken}`;
             setToken(response.data.accessToken);
             const decode = jwt_decode(response.data.accessToken);
+            setName(decode.name);
             setExpire(decode.exp);
+            console.log("erreur ici !!!!")
         }
 
         return config;
     },(error) =>{
-        console.log('erreur')
-        return (error);
+        console.log('erreur',error)
+        return  Promise.reject(error);
 
 
     });
 
-    const getUsersAuthent = async () =>{
-        const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/authentication', {
-            headers:{
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        setUsers(response.data);
+    const getUsersAuthent = async function () {
+        try{
+
+            const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/authentication', {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUsers(response.data);
+
+        }
+        catch(error){
+            console.log("ERROR ACCUEIL", error)
+            console.log("response data: ");
+        }
+
         
     }
 

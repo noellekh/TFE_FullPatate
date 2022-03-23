@@ -51,8 +51,8 @@ const NavbarClient =()=>{
                         <li>Agenda</li>
                 </NavLink>
 
-                <NavLink to='/scores' >
-                        <li>Scores</li>
+                <NavLink to='/training' >
+                        <li>Training</li>
                 </NavLink>
 
                 <NavLink to='/astuces' >

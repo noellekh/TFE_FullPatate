@@ -18,10 +18,11 @@ const Login = ()=>{
                 password:password
             });
             navigate("/accueil-client")
+            alert("Connexion ok");
         }catch(error){
-            if(error.response){
-                setMsg(error.response.data.msg)
-            }
+            console.log("ERROR PAGE CONNEXION ",error);
+            navigate('/accueil-classic');
+
         }
     }
 

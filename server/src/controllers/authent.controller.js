@@ -4,19 +4,20 @@ const jwt  = require('jsonwebtoken');
 const json = require('sequelize');
 
 
-exports.getUsersAuthent = async(req, res) =>{
+
+exports.getUsersAuthent = async function (req, res) {
     try{
-        const authent = await Authent.findAll ({
+        const authent =  await Authent.findOne ({
             attributes: ['id_user', 'user_nom', 'user_surname', 'user_password', 'user_birth', 
                         'user_email', 'user_phone', 'user_sex', 'user_street', 'postal', 'newsletter']
         });
-        res.json(authent);
+        return res.json(authent);
     } catch (error) {
-        console.log(error);
+        console.log("ERREUR AUTHENTIFICATION",error);
     }
 }
 
-exports.Register = async(req, res)=>{
+exports.Register = async function (req, res){
     const {name, surname, password, birth, email, phone, sex, street, postal, newsletter}= req.body;
     //if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
     const salt = await bcrypt.genSalt(10);
@@ -41,43 +42,77 @@ exports.Register = async(req, res)=>{
     }
 }
 
-exports.Login = (req, res) =>{
+exports.Login =  async function (req, res){
     try {
-        const auth =  Authent.findOne({
-            where:{
-                user_email: req.body.email
-            }
+
+        const auth = await Authent.findOne({
+            user_email: req.body.email
         });
+
+        const passwordIsValid =  bcrypt.compare(
+            req.body.password,
+            auth.user_password
+        );
+        console.log("auth pass", auth.user_password);
+        console.log("req.body.pass", req.body.password);
+
+        if (!passwordIsValid) {
+            res.status(401).send({
+              accessToken: null,
+              message: "Invalid Password!"
+            });
+            console.log('hey')
+        }else{
+              res.status(200).send({msg:'ok ok'})
+              console.log("MOT DE PASSE OK");
+              
+        }
+        
+
+        /*
         bcrypt.compare(req.body.password, auth.password, function(err, res){
             if(err){
-                console.log('comparaison error:', err)
+                console.log('comparaison error:', err);
+            }else{
+                console.log('COMPARAISON OK !');
             }
         });
+        
         //if(!match) return res.status(400);json({msq: "Mauvais mot de passe"});
         const userId = auth.id;
         const name = auth.nom;
         const email = auth.email;
-        const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: '20s'
-        });
+        console.log("param", userId, name, email);
+        */
+        const accessToken = jwt.sign({auth}, process.env.ACCESS_TOKEN_SECRET,{
+            expiresIn: 1000
+        })
+        console.log("ACCESS TOKEN IS: ", accessToken)
+        ;
 
-        const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
-            expiresIn: '1d'
+        const refreshToken = jwt.sign({auth}, process.env.REFRESH_TOKEN_SECRET,{
+            expiresIn: 18998*8
+        })
+        console.log("REFRESH TOKEN IS: ", refreshToken);
+        ;
+        
+        const userId = auth.id_user;
+        console.log("userID: ", userId);
+        await Authent.update({refresh_token: refreshToken},{
+            id_user: userId
+            
         });
-         Authent.update({refresh_token: refreshToken},{
-            where:{
-                id_user: userId
-            }
+        
+        
+       return res.cookie('refreshToken', refreshToken,{
+            httpOnly: false,
         });
-        res.cookie('refreshtoken', refreshToken,{
-            httpOnly: true,
-            maxAge: 24 * 60 * 60* 1000
-        });
-        res.json({ accessToken});
-        res.status(200).json({msg:"ouiii"})
+        
+       // return res.status(200).json({msg:"ouiii"})
+
     }catch (error){
-        res.status(404).json({msg: 'email non trouvé'});
-        console.log(error);
+        return res.status(401).json();
+        console.log("AUTRE ERREUR", error);
         //res.send(error);
         
     }
