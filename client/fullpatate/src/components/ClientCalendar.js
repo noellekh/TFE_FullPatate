@@ -1,12 +1,16 @@
 import React, {Component, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
-import moment from "moment"
+import moment from "moment";
+import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
 //import format from 'date-fns'
 
 import { registerLocale } from "react-datepicker";
 import fr from 'date-fns/locale/fr';
 registerLocale('fr', fr)
+
+
 
 /*
 class ClientCalendar extends Component{
@@ -58,12 +62,24 @@ export default ClientCalendar;
 */
 const ClientCalendar = () =>{
     const [chooseDate, setChooseDate] = useState(null);
+    const [coaching, setCoaching] = useState('')
+    const navigate = useNavigate()
 
     const handleChoiceDate=(date)=>{
         setChooseDate(date)
         console.log(chooseDate)
         return date;
     };
+
+    const storeDate = async (e)=>{
+        e.preventDefault()
+        await axios.post('http://localhost:3001/api/v1/agenda_client/create_agenda_client',{agenda_user_date:chooseDate})
+        navigate('/agenda_client')
+        alert("Sauvegardé avec succè !")
+
+    }
+
+
 
 
 
@@ -80,6 +96,21 @@ const ClientCalendar = () =>{
                 locale='fr'
                 />
             </div>
+
+            <div className="champ-calendar">
+                <form onSubmit={storeDate} className="form-calendar">
+                    <input 
+                    value={chooseDate}
+                    onChange={handleChoiceDate}
+                    dateFormat="yyyy/dd/MM EE HH:mm "
+                    showTimeSelect
+                    timeIntervals={60}
+                    locale='fr'
+                    />
+
+                </form>
+            </div>
+            <button type="submit" className="button-calendar">Sauvegarder</button>
 
             <div className="ag-client-choix">
                 <p>Vous avez choisi {chooseDate ? chooseDate.toString(): null}</p>
