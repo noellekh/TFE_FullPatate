@@ -35,12 +35,14 @@ app.get('/', (req, res)=>{
 // import employee routes
 const usersRoutes = require('./src/routes/users.route.js');
 const productRoutes = require('./src/routes/product.route.js');
-const authentRoutes = require ('./src/routes/authent.route.js')
+const authentRoutes = require ('./src/routes/authent.route.js');
+const trainingRoutes = require('./src/routes/training.route.js');
  
 // create employee routes
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v2/products', productRoutes);
-app.use('/api/v1/authent', authentRoutes)
+app.use('/api/v1/authent', authentRoutes);
+app.use('/api/v1/training', trainingRoutes);
  
 // listen to the port
 app.listen(port, ()=>{
