@@ -3,30 +3,43 @@ const  jwt = require ( "jsonwebtoken");
 
 exports.refreshToken = async function (req, res)  {
     try {
-        const refreshToken = req.cookies.refreshToken;
-        if(!refreshToken) return res.sendStatus(401);
-        const auth = await Authent.findOne({
-            
-                refresh_token: refreshToken
-            
-        });
-        if(!auth) return res.sendStatus(403);
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-            if(err) {
-                console.log("erreur ici") 
+        const refreshToken = req.cookies.jwt;
+        if(!refreshToken){
+            console.log("ERROR REFRESH TOKEN", refreshToken)
+            return res.sendStatus(401);
+
+        }else{
+
+            const auth = await Authent.findAll({
+                where:{refresh_token: refreshToken}
+                
+            });
+            if(!auth[0]){
                 return res.sendStatus(403);
             }else{
-          /*
-            const userId = auth.id;
-            const name = auth.name;
-            const email = auth.email;
-        */
-            const accessToken = jwt.sign({auth}, process.env.ACCESS_TOKEN_SECRET,{
-                expiresIn: 150000
-            });
-            return res.json({ accessToken });
+
+                jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+                    if(err) {
+                        console.log("erreur ici") 
+                        return res.sendStatus(403);
+                    }else{
+                  
+                    const userId = auth[0].id_user;
+                    const name = auth[0].user_nom;
+                    const email = auth[0].user_email;
+                
+                    const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
+                        expiresIn: '15s'
+                    });
+                    return res.json({ accessToken });
+                }
+                });
+
+            }
+
+
         }
-        });
+
     } catch (error) {
         console.log("verify error", error);
     }

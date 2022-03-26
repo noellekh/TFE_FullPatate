@@ -15,6 +15,7 @@ const AccueilClient =()=>{
     const navigate = useNavigate();
 
     console.log("TOKEN: ", token);
+    console.log("NAME: ", name);
     
 
     useEffect( ()=>{
@@ -24,12 +25,12 @@ const AccueilClient =()=>{
 
     const refreshToken = async function (){
         try{
-            const response = await axios.get('http://localhost:3001/api/v1/authent/token');
+            const response = await axios.get('http://localhost:3001/api/v1/authent/token', {withCredentials: true});
             setToken(response.data.accessToken);
-            const decode = jwt_decode(response.data.accessToken);
-            setName(decode.name);
-            setExpire(decode.exp);
-            console.log("DECODE", decode);
+            const decoded = jwt_decode(response.data.accessToken);
+            setName(decoded.name);
+            setExpire(decoded.expire);
+            console.log("DECODE", decoded);
 
         }catch(error){
             if (error.response){
@@ -42,7 +43,7 @@ const AccueilClient =()=>{
 
     const axiosJWT = axios.create(
         {
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/*" },
         
         });
 
@@ -69,12 +70,13 @@ const AccueilClient =()=>{
     const getUsersAuthent = async function () {
         try{
 
-            const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/authentication', {
+            const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/register', {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
             });
             setUsers(response.data);
+            console.log('yeees');
 
         }
         catch(error){

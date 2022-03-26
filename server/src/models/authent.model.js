@@ -55,6 +55,12 @@ const db = require ('../../config/db.config');
         type: Sequelize.STRING
         },
 
+        refresh_token:{
+            type: Sequelize.TEXT
+        }
+
+
+
     },{
         freezeTableName: true,
         timestamps: false

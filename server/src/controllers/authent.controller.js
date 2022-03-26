@@ -2,6 +2,7 @@ const Authent = require("../models/authent.model");
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 const json = require('sequelize');
+const { refreshToken } = require("./refresh_token.controller");
 
 
 
@@ -34,7 +35,8 @@ exports.Register = async function (req, res){
             user_sex: sex,
             user_street: street,
             postal: postal,
-            newsletter: newsletter
+            newsletter: newsletter,
+            //refresh_token: refreshToken
         });
         res.json({msg: "Register ok"});
     }catch (error){
@@ -45,27 +47,65 @@ exports.Register = async function (req, res){
 exports.Login =  async function (req, res){
     try {
 
-        const auth = await Authent.findOne({
-            user_email: req.body.email
+        const auth = await Authent.findAll({
+            where:{user_email: req.body.email}
+            
         });
+
+        console.log("AUTH ", auth[0])
+
 
         const passwordIsValid =  bcrypt.compare(
             req.body.password,
-            auth.user_password
+            auth[0].user_password
         );
-        console.log("auth pass", auth.user_password);
+        console.log("auth pass", auth[0].user_password);
         console.log("req.body.pass", req.body.password);
+        console.log("ID USER ", req.body.email);
 
         if (!passwordIsValid) {
             res.status(401).send({
               accessToken: null,
               message: "Invalid Password!"
             });
-            console.log('hey')
         }else{
-              res.status(200).send({msg:'ok ok'})
-              console.log("MOT DE PASSE OK");
-              
+            const userId = auth[0].id_user;
+            const name = auth[0].user_nom;
+            const email =auth[0].user_email;
+            res.status(200).send({msg:'ok ok'})
+            console.log("MOT DE PASSE OK"); 
+            
+            const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
+                expiresIn: '1500s'
+            })
+            console.log("ACCESS TOKEN IS: ", accessToken)
+            ;
+    
+            const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
+                expiresIn: '1d'
+            })
+            console.log("REFRESH TOKEN IS: ", refreshToken);
+            ;
+            
+            console.log("userID: ", userId);
+            const refresh_token=auth[0].refresh_token;
+            console.log("REFRESH TOKEN TABLE ", refresh_token)
+
+            await Authent.update(
+                {refresh_token:refreshToken},
+                {where:{id_user: userId}}
+                
+                );
+            
+            
+            res.cookie('jwt', refreshToken,{
+                expires: new Date(Date.now()+ 500000),
+                httpOnly: true,
+                
+            });
+            console.log("cookie ", req.cookies.jwt);
+            
+           // return res.status(200).json({msg:"ouiii"})
         }
         
 
@@ -84,31 +124,7 @@ exports.Login =  async function (req, res){
         const email = auth.email;
         console.log("param", userId, name, email);
         */
-        const accessToken = jwt.sign({auth}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: 1000
-        })
-        console.log("ACCESS TOKEN IS: ", accessToken)
-        ;
 
-        const refreshToken = jwt.sign({auth}, process.env.REFRESH_TOKEN_SECRET,{
-            expiresIn: 18998*8
-        })
-        console.log("REFRESH TOKEN IS: ", refreshToken);
-        ;
-        
-        const userId = auth.id_user;
-        console.log("userID: ", userId);
-        await Authent.update({refresh_token: refreshToken},{
-            id_user: userId
-            
-        });
-        
-        
-       return res.cookie('refreshToken', refreshToken,{
-            httpOnly: false,
-        });
-        
-       // return res.status(200).json({msg:"ouiii"})
 
     }catch (error){
         return res.status(401).json();
