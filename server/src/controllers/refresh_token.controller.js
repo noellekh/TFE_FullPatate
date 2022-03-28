@@ -3,9 +3,9 @@ const  jwt = require ( "jsonwebtoken");
 
 exports.refreshToken = async function (req, res)  {
     try {
-        const refreshToken = req.cookies.jwt;
+        const refreshToken = req.cookies.refreshToken;
         if(!refreshToken){
-            console.log("ERROR REFRESH TOKEN", refreshToken)
+            console.log("ERROR REFRESH TOKEN", req.cookies.refreshToken)
             return res.sendStatus(401);
 
         }else{
@@ -24,12 +24,12 @@ exports.refreshToken = async function (req, res)  {
                         return res.sendStatus(403);
                     }else{
                   
-                    const userId = auth[0].id_user;
-                    const name = auth[0].user_nom;
-                    const email = auth[0].user_email;
+                    const userId = auth.id_user;
+                    const name = auth.user_nom;
+                    const email = auth.user_email;
                 
                     const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-                        expiresIn: '15s'
+                        expiresIn: '30m'
                     });
                     return res.json({ accessToken });
                 }

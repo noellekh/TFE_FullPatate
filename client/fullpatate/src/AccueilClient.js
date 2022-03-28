@@ -8,27 +8,27 @@ import NavbarClient from "./components/NavbarClient";
 
 const AccueilClient =()=>{
 
-    const [name, setName] = useState('');
-    const [token, setToken] =useState('');
+    const [user_nom, setName] = useState('');
+    const [refresh_token, setToken] =useState('');
     const [expire, setExpire] = useState('');
-    const [users, setUsers] = useState([]);
+    const [authent, setAuthent] = useState([]);
     const navigate = useNavigate();
 
-    console.log("TOKEN: ", token);
-    console.log("NAME: ", name);
+    console.log("TOKEN: ", refresh_token);
+    console.log("NAME: ", user_nom);
     
 
     useEffect( ()=>{
         refreshToken();
         getUsersAuthent();
-    }, []);
+    });
 
-    const refreshToken = async function (){
+    const refreshToken =  function (){
         try{
-            const response = await axios.get('http://localhost:3001/api/v1/authent/token', {withCredentials: true});
+            const response =  axios.get('http://localhost:3001/api/v1/authent/token',  {headers:{withCredentials: true}});
             setToken(response.data.accessToken);
             const decoded = jwt_decode(response.data.accessToken);
-            setName(decoded.name);
+            setName(decoded.user_nom);
             setExpire(decoded.expire);
             console.log("DECODE", decoded);
 
@@ -36,7 +36,7 @@ const AccueilClient =()=>{
             if (error.response){
                 console.log("ERROR REFRESH ACC", error);
                 //console.log("SetTOKEN: ");
-                navigate('/');
+                navigate('/accueil-classic');
             }
         }
     }
@@ -47,16 +47,16 @@ const AccueilClient =()=>{
         
         });
 
-    axiosJWT.interceptors.request.use(async (config)=>{
+    axiosJWT.interceptors.request.use( (config)=>{
         const currentDate = new Date();
         if(expire*1000 < currentDate.getTime()){
-            const response = await axios.get('http://localhost:3001/api/v1/authent/token');
+            const response =  axios.get('http://localhost:3001/api/v1/authent/token', {withCredentials: true});
             config.headers.Authorization= `Bearer ${response.data.accessToken}`;
             setToken(response.data.accessToken);
             const decode = jwt_decode(response.data.accessToken);
-            setName(decode.name);
+            setName(decode.user_nom);
             setExpire(decode.exp);
-            console.log("erreur ici !!!!")
+            
         }
 
         return config;
@@ -67,39 +67,34 @@ const AccueilClient =()=>{
 
     });
 
-    const getUsersAuthent = async function () {
+    const getUsersAuthent =  function () {
         try{
 
-            const response = await axiosJWT.get('http://localhost:3001/api/v1/authent/register', {
+            const response =  axiosJWT.get('http://localhost:3001/api/v1/authent/register', {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${refresh_token}`
                 }
             });
-            setUsers(response.data);
+            setAuthent(response.data);
             console.log('yeees');
 
         }
         catch(error){
             console.log("ERROR ACCUEIL", error)
-            console.log("response data: ");
+            
         }
 
         
     }
 
-
     return (
         <div className="accueil-client">
             <NavbarClient />
-            {users.map((user)=>{
-                return(
-                    <h1>hello {user.usesr_name}</h1>
-                )
-                
-            })}
-            <h2>Bienvenue : {name}!</h2>
             
- 
+            
+                <h2>Bienvenue :{user_nom}!</h2>
+
+            
   
         </div>
     )

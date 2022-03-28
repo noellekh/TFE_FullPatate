@@ -5,8 +5,8 @@ import NavbarClassic from './components/NavbarClassic';
 import AccueilClassic from './AccueilClient';
 
 const Login = ()=>{
-    const [email, setEmail]=useState('');
-    const [password, setPassword]= useState('');
+    const [user_email, setEmail]=useState('');
+    const [user_password, setPassword]= useState('');
     const [msg, setMsg]= useState('');
     const navigate = useNavigate();
 
@@ -14,8 +14,8 @@ const Login = ()=>{
         e.preventDefault();
         try{
             await axios.post('http://localhost:3001/api/v1/authent/login',{
-                email: email, 
-                password:password
+                user_email: user_email, 
+                user_password:user_password
             });
             navigate("/accueil-client")
             alert("Connexion ok");
@@ -36,14 +36,14 @@ const Login = ()=>{
                         <div className='field-connexion'>
                             <label className='label'>Email</label>
                             <input type='text' className='input' placeholder='mail'
-                                value={email} 
+                                value={user_email} 
                                 onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div className='field-connexion'>
                             <label className='label'>Mot de passe</label>
                             <input type='password' className='input' placeholder='mot de passe'
-                                value={password} 
+                                value={user_password} 
                                 onChange={(e) => setPassword(e.target.value)} />
                         </div>
 

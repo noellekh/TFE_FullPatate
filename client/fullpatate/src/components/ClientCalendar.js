@@ -73,50 +73,52 @@ const ClientCalendar = () =>{
 
     const storeDate = async (e)=>{
         e.preventDefault()
-        await axios.post('http://localhost:3001/api/v1/agenda_client/create_agenda_client',{agenda_user_date:chooseDate})
-        navigate('/agenda_client')
-        alert("Sauvegardé avec succè !")
+        try{
+            await axios.post('http://localhost:3001/api/v1/agenda_client/create_agenda_client',{agenda_user_date:chooseDate},{
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                }
+            })
+            navigate('/agenda_client')
+            alert("Sauvegardé avec succè !")
+            console.log("RDV  ", chooseDate);
+        }catch(error){
+            console.log("erreur agenda: ", error);
+        }
+
 
     }
-
-
-
-
 
     return(
         <div className="ag-client-datepicker">
             <div>
                 <label>Choisir un rendez-vous</label>
-                <DatePicker
-                selected={chooseDate}
-                onChange={handleChoiceDate}
-                dateFormat="yyyy/dd/MM EE HH:mm "
-                showTimeSelect
-                timeIntervals={60}
-                locale='fr'
-                />
+    
             </div>
 
             <div className="champ-calendar">
                 <form onSubmit={storeDate} className="form-calendar">
-                    <input 
-                    value={chooseDate}
-                    onChange={handleChoiceDate}
-                    dateFormat="yyyy/dd/MM EE HH:mm "
-                    showTimeSelect
-                    timeIntervals={60}
-                    locale='fr'
+                    <DatePicker
+                        selected={chooseDate}
+                        onChange={handleChoiceDate}
+                        dateFormat="yyyy/dd/MM EE HH:mm "
+                        showTimeSelect
+                        timeintervals={60}
+                        locale='fr'
                     />
+                    <button type="submit" className="button-calendar">Sauvegarder</button>
+
+                    <div className="ag-client-choix">
+                        <p>Vous avez choisi {chooseDate ? chooseDate.toString(): null}</p>
+                        <p>{moment(chooseDate).format("dddd  DD/MM/yyyy à HH:mm")}</p>
+
+                    </div>
 
                 </form>
             </div>
-            <button type="submit" className="button-calendar">Sauvegarder</button>
+            
 
-            <div className="ag-client-choix">
-                <p>Vous avez choisi {chooseDate ? chooseDate.toString(): null}</p>
-                <p>{moment(chooseDate).format("dddd  DD/MM/yyyy à HH:mm")}</p>
-
-            </div>
 
 
         </div>

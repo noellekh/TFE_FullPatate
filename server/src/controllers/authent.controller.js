@@ -2,7 +2,7 @@ const Authent = require("../models/authent.model");
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 const json = require('sequelize');
-const { refreshToken } = require("./refresh_token.controller");
+
 
 
 
@@ -19,21 +19,21 @@ exports.getUsersAuthent = async function (req, res) {
 }
 
 exports.Register = async function (req, res){
-    const {name, surname, password, birth, email, phone, sex, street, postal, newsletter}= req.body;
+    const {user_nom, user_surname, user_password, user_birth, user_email, user_phone, user_sex, user_street, postal, newsletter}= req.body;
     //if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(user_password, salt);
     console.log(hashPassword);
     try {
         await Authent.create({
-            user_nom: name,
-            user_surname: surname,
+            user_nom: user_nom,
+            user_surname: user_surname,
             user_password: hashPassword,
-            user_birth: birth,
-            user_email: email,
-            user_phone: phone,
-            user_sex: sex,
-            user_street: street,
+            user_birth: user_birth,
+            user_email: user_email,
+            user_phone: user_phone,
+            user_sex: user_sex,
+            user_street: user_street,
             postal: postal,
             newsletter: newsletter,
             //refresh_token: refreshToken
@@ -47,66 +47,75 @@ exports.Register = async function (req, res){
 exports.Login =  async function (req, res){
     try {
 
-        const auth = await Authent.findAll({
-            where:{user_email: req.body.email}
+        const auth = await Authent.findOne({
+            where:{user_email: req.body.user_email}
             
         });
 
-        console.log("AUTH ", auth[0])
+        
+
+        console.log("AUTH ", auth)
 
 
-        const passwordIsValid =  bcrypt.compare(
-            req.body.password,
-            auth[0].user_password
+        const passwordIsValid =   bcrypt.compare(
+            req.body.user_password,
+            auth.user_password
         );
-        console.log("auth pass", auth[0].user_password);
-        console.log("req.body.pass", req.body.password);
-        console.log("ID USER ", req.body.email);
+        console.log("auth pass",auth.user_password);
+        console.log("req.body.pass", req.body.user_password);
+        console.log("ID USER ", req.body.user_email);
 
-        if (!passwordIsValid) {
+        if (!passwordIsValid) if(!match) return res.status(400).json({msg: "Wrong Password"});
+        /*{
             res.status(401).send({
               accessToken: null,
               message: "Invalid Password!"
             });
-        }else{
-            const userId = auth[0].id_user;
-            const name = auth[0].user_nom;
-            const email =auth[0].user_email;
-            res.status(200).send({msg:'ok ok'})
+        */
+        
+            const userId = auth.id_user;
+            const name = auth.user_nom;
+            const email =auth.user_email;
+            //res.status(200).send({msg:'ok ok'})
             console.log("MOT DE PASSE OK"); 
+            console.log(userId, name, email);
             
-            const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-                expiresIn: '1500s'
+            const accessToken = jwt.sign({id_user:userId, user_nom:name, user_email:email}, process.env.ACCESS_TOKEN_SECRET,{
+                expiresIn: '30m'
             })
             console.log("ACCESS TOKEN IS: ", accessToken)
             ;
     
-            const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
+            const refreshToken = jwt.sign({id_user:userId, user_nom:name, user_email:email}, process.env.REFRESH_TOKEN_SECRET,{
                 expiresIn: '1d'
             })
             console.log("REFRESH TOKEN IS: ", refreshToken);
             ;
+
+
             
             console.log("userID: ", userId);
-            const refresh_token=auth[0].refresh_token;
-            console.log("REFRESH TOKEN TABLE ", refresh_token)
+            //const refresh_token=auth[0].refresh_token;
+            //console.log("REFRESH TOKEN TABLE ", refresh_token)
 
-            await Authent.update(
+           const updateT= await Authent.update(
                 {refresh_token:refreshToken},
                 {where:{id_user: userId}}
                 
                 );
-            
-            
-            res.cookie('jwt', refreshToken,{
-                expires: new Date(Date.now()+ 500000),
+
+            res.cookie('refreshToken', refreshToken,{
                 httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000
                 
-            });
-            console.log("cookie ", req.cookies.jwt);
+            })
+            console.log('COOKIES ',req.cookies.refreshToken)
+            res.json({ refreshToken });
+            
+            
             
            // return res.status(200).json({msg:"ouiii"})
-        }
+        
         
 
         /*
@@ -127,7 +136,8 @@ exports.Login =  async function (req, res){
 
 
     }catch (error){
-        return res.status(401).json();
+        //res.send({message:"message"});
+        //res.status(404).json({msg:"Email not found"});
         console.log("AUTRE ERREUR", error);
         //res.send(error);
         
