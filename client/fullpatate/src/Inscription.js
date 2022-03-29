@@ -5,14 +5,14 @@ import NavbarClassic  from "./components/NavbarClassic";
 import Connexion from "./Connexion";
 
 const Register = ()=>{
-    const [name, setName] = useState('');
-    const[password, setPassword] = useState('');
-    const [surname, setSurname] =useState('');
-    const [birth, setBirth]= useState('');
-    const [email, setEmail]= useState('');
-    const [phone, SetPhone]= useState('');
-    const [sex, setSex]= useState('');
-    const [street, setStreet] = useState('');
+    const [user_nom, setName] = useState('');
+    const[user_password, setPassword] = useState('');
+    const [user_surname, setSurname] =useState('');
+    const [user_birth, setBirth]= useState('');
+    const [user_email, setEmail]= useState('');
+    const [user_phone, SetPhone]= useState('');
+    const [user_sex, setSex]= useState('');
+    const [user_street, setStreet] = useState('');
     const [postal, setPostal] = useState('');
     const [newsletter, setNewsletter] = useState('');
 
@@ -23,14 +23,14 @@ const Register = ()=>{
         e.preventDefault();
         try{
             await axios.post('http://localhost:3001/api/v1/authent/register', {
-                name: name,
-                password: password,
-                surname: surname,
-                birth: birth,
-                email:email,
-                phone:phone,
-                sex:sex,
-                street:street,
+                user_nom: user_nom,
+                user_password: user_password,
+                user_surname: user_surname,
+                user_birth: user_birth,
+                user_email:user_email,
+                user_phone:user_phone,
+                user_sex:user_sex,
+                user_street:user_street,
                 postal:postal,
                 newsletter:newsletter
 
@@ -58,7 +58,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Nom</label>
                             <input type="text" className="input" placeholder="Nom" 
-                                value={name}
+                                value={user_nom}
                                 onChange={(e)=> setName(e.target.value)}
                             />    
                         </div>
@@ -66,7 +66,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Prénom</label>
                             <input type="text" className="input" placeholder="Prénom" 
-                                value={surname}
+                                value={user_surname}
                                 onChange={(e)=> setSurname(e.target.value)}
                             />    
                         </div>
@@ -74,7 +74,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Email</label>
                             <input type="text" className="input" placeholder="Email" 
-                                value={email}
+                                value={user_email}
                                 onChange={(e)=> setEmail(e.target.value)}
                             />    
                         </div>
@@ -82,7 +82,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Mot de passe</label>
                             <input type="password" className="input" placeholder="mot de passe" 
-                                value={password}
+                                value={user_password}
                                 onChange={(e)=> setPassword(e.target.value)}
                             />    
                         </div>
@@ -91,7 +91,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Date de naissance</label>
                             <input type="text" className="input" placeholder="date" 
-                                value={birth}
+                                value={user_birth}
                                 onChange={(e)=> setBirth(e.target.value)}
                             />    
                         </div>
@@ -99,7 +99,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Genre</label>
                             <input type="text" className="input" placeholder="F=femme, M=homme" 
-                                value={sex}
+                                value={user_sex}
                                 onChange={(e)=> setSex(e.target.value)}
                             />    
                         </div>
@@ -107,7 +107,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Téléphone</label>
                             <input type="text" className="input" placeholder="telephone" 
-                                value={phone}
+                                value={user_phone}
                                 onChange={(e)=> SetPhone(e.target.value)}
                             />    
                         </div>
@@ -115,7 +115,7 @@ const Register = ()=>{
                         <div className="field-inscription">
                             <label className="label">Adresse</label>
                             <input type="text" className="input" placeholder="Rue et n°" 
-                                value={street}
+                                value={user_street}
                                 onChange={(e)=> setStreet(e.target.value)}
                             />    
                         </div>

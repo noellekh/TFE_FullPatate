@@ -7,6 +7,7 @@ const authentMiddlware = require ('../middleware/verify_token.js');
 
  
 router.get('/register', authentMiddlware.verifyToken,authentController.getUsersAuthent);
+router.get('/user-authent/:id_user', authentController.getUsersAuthentId, authentMiddlware.verifyToken);
 router.post('/register', authentController.Register);
 router.post('/login', authentController.Login);
 router.get('/token', tokenController.refreshToken);

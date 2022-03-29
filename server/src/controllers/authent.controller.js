@@ -14,16 +14,27 @@ exports.getUsersAuthent = async function (req, res) {
         });
         return res.json(authent);
     } catch (error) {
+        res.send(error);
         console.log("ERREUR AUTHENTIFICATION",error);
     }
 }
-
+exports.getUsersAuthentId = async function(req, res){
+    try{
+        const authentId = await Authent.findOne({
+            where:{id_user: req.params.id_user}
+        })
+        return res.json(authentId)
+    }catch(error){
+        return res.json({message: error.message})
+    }
+    
+}
 exports.Register = async function (req, res){
     const {user_nom, user_surname, user_password, user_birth, user_email, user_phone, user_sex, user_street, postal, newsletter}= req.body;
     //if (password !== confPassword) return res.status(400).json({msg: "Mot de passe erreur"});
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(user_password, salt);
-    console.log(hashPassword);
+    const salt =  await bcrypt.genSalt(10);
+    const hashPassword = await  bcrypt.hash(user_password, salt);
+    console.log(typeof (hashPassword));
     try {
         await Authent.create({
             user_nom: user_nom,

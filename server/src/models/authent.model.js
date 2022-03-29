@@ -28,8 +28,6 @@ const db = require ('../../config/db.config');
         type: Sequelize.TEXT
         },
 
-
-
         user_birth:{
         type: Sequelize.DATE
         },
