@@ -30,7 +30,7 @@ const AccueilClient =()=>{
             const decoded = jwt_decode(response.data.accessToken);
             setName(decoded.user_nom);
             setExpire(decoded.expire);
-            console.log("DECODE", decoded);
+            console.log("DECODE");
 
         }catch(error){
             if (error.response){
@@ -90,9 +90,17 @@ const AccueilClient =()=>{
     return (
         <div className="accueil-client">
             <NavbarClient />
+            <div className="acceuil-nom">
+
+            
+                <h2>Bienvenue !</h2>
+            
+
+            </div>
+
             
             
-                <h2>Bienvenue :{user_nom}!</h2>
+                
 
             
   
