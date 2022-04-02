@@ -7,6 +7,26 @@ const db = new Sequelize('fp_db', 'balboa', 'fullpatate',{
 
 }
 );
+/*
+const models = {};
+models.Sequelize = Sequelize;
+models.db = db;
+models.users = require('../src/models/authent.model.js')(db, Sequelize)
+models.agendaclient = require ('../src/models/agenda_client.model.js')(db, Sequelize)
+
+models.agendaclient.belongsTo(models.users,{
+    through: 'agendaclient_users',
+    foreignKey:'id_agenda_client',
+    otherKey: 'id_user'
+    
+});
+
+models.users.belongsToMany(models.agendaclient,{
+    through:'agendaclient_users',
+    foreignKey:'id_user',
+    otherKey:'id_agenda_client'
+})
+*/
 
 
 module.exports = db;

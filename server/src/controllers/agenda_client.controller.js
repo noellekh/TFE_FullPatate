@@ -1,5 +1,6 @@
 const AgendaClient = require('../models/agenda_client.model.js');
 const json = require ('sequelize');
+const Authent = require('../models/authent.model.js');
 
 exports.createAgendaClient = async function(req, res){
     try{
@@ -12,7 +13,8 @@ exports.createAgendaClient = async function(req, res){
 
 exports.getAllAgendaClient = async function(req, res){
     try{
-        const agendaC = await AgendaClient.findAll()
+        const agendaC = await AgendaClient.findAll({include: Authent});
+        console.log(JSON.stringify(agendaC, null, 2));
         return res.json(agendaC)
     }catch(error){
         return res.json({message:error.message})

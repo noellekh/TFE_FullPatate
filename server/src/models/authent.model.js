@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require ('../../config/db.config');
+const AgendaClient = require('./agenda_client.model');
+const Score = require ('./score.model.js');
 
 //const { sequelize, Sequelize } = require(".");
 
@@ -60,9 +62,13 @@ const db = require ('../../config/db.config');
 
 
     },{
+        tableName:'users',
         freezeTableName: true,
         timestamps: false
     });
+
+    Authent.hasMany(AgendaClient, {foreignKey:'id_user'});
+    Authent.hasMany(Score, {foreignKey:'id_user'});
 
     (async()=>{
         await db.sync();

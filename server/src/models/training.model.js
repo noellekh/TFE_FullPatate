@@ -1,5 +1,6 @@
 const db = require ('../../config/db.config');
 const Sequelize = require('sequelize');
+const Score =  require ('./score.model.js')
 
 
 const Training = db.define('training',{
@@ -21,6 +22,8 @@ const Training = db.define('training',{
     freezeTableName: true,
     timestamps: false
 });
+
+Training.hasMany(Score, {foreignKey:'id_training'});
 
 (async()=>{
     await db.sync();
