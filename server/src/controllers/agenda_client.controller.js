@@ -5,19 +5,20 @@ const Authent = require('../models/authent.model.js');
 exports.createAgendaClient = async function(req, res){
     try{
         const agendaC = await AgendaClient.create(req.body)
+        
         return res.json({message:"Agenda créer !"})
     }catch(error){
-        return res.json({message:error.message})
+        return res.json({message:error.message + "erreur ici"})
     }
 }
 
 exports.getAllAgendaClient = async function(req, res){
     try{
-        const agendaC = await AgendaClient.findAll({include: Authent});
+        const agendaC = await AgendaClient.findAll({include: Authent.id_user});
         console.log(JSON.stringify(agendaC, null, 2));
         return res.json(agendaC)
     }catch(error){
-        return res.json({message:error.message})
+        return res.json({message:error.message + "erreeeeur"})
     }
 }
 

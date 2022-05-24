@@ -9,6 +9,14 @@ const AgendaClient = db.define('agenda_client',{
         primaryKey: true
     },
 
+    id_user:{
+        type: Sequelize.INTEGER,
+        references:{
+            key:'id_user'
+        }
+    },
+
+
     agenda_user_date:{
         type: Sequelize.DATE
 
@@ -19,10 +27,13 @@ const AgendaClient = db.define('agenda_client',{
     timestamps: false
 });
 //AgendaClient.hasOne(users, {foreignKey: 'id_user'});
-//AgendaClient.hasMany(Authent,{foreignKey:'id_user'});
+//AgendaClient.hasOne(Authent,{foreignKey:'id_user'});
 
+AgendaClient.associate=(models)=>{
+    AgendaClient.belongsTo(Authent,{foreignKey:'id_user'})
 
-//AgendaClient.belongsTo(Authent)
+};
+
 
 
 

@@ -67,8 +67,9 @@ const Score = require ('./score.model.js');
         timestamps: false
     });
 
-    Authent.hasMany(AgendaClient, {foreignKey:'id_user'});
-    Authent.hasMany(Score, {foreignKey:'id_user'});
+   Authent.hasMany(AgendaClient, {foreignKey:'id_user'}, {as: 'iduser'});
+   //AgendaClient.belongsTo(Authent);
+    //Authent.hasMany(Score,{as:'scoreclient', foreignKey:'id_user'});
 
     (async()=>{
         await db.sync();
